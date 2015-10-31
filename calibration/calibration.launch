@@ -1,0 +1,27 @@
+<launch>
+<!--- 
+Launch this, move around A4 calibration pattern and save the resulting params to ost.ini.
+
+Then use `rosrun  camera_calibration_parsers convert ost.ini cal.yml`
+
+And move cal.yml to ~/.ros/camera_info/head_camera.yml
+
+//-->
+
+    <node name="camera" pkg="usb_cam" type="usb_cam_node">
+        <param name="video_device" value="/dev/video1" />
+        <param name="image_width" value="640" />
+        <param name="image_height" value="480" />
+        <param name="pixel_format" value="yuyv" />
+        <param name="framerate" value="30" />
+        <param name="camera_frame_id" value="webcam" />
+    </node>
+ 
+    <node name="proc" ns="camera" pkg="image_proc" type="image_proc" args="">
+    </node>
+ 
+    <node name="calibrator" pkg="camera_calibration" type="cameracalibrator.py" args=" --size 11x7 --square 0.190" clear_params="true" output="screen" >
+        <remap from="image" to="/camera/image_mono" />
+        <remap from="camera" to="/camera" />
+    </node>
+</launch>

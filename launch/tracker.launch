@@ -1,0 +1,6 @@
+<launch>
+    <group>
+        <include file="$(find marker_tracker)/launch/camera.launch"/>
+        <include file="$(find marker_tracker)/launch/image_proc.launch" />
+    </group>
+</launch>

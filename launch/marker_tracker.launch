@@ -1,0 +1,7 @@
+<launch>
+    <node name="marker_tracker" pkg="marker_tracker" type="marker_tracker">
+        <remap from="image" to="/stereo/left/image_rect"/>
+    </node>
+</launch>
+
+

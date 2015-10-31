@@ -1,0 +1,17 @@
+<launch>
+	<node name="image_proc" pkg="image_proc" type="image_proc" ns="stereo/left"/>
+	<node name="image_proc" pkg="image_proc" type="image_proc" ns="stereo/right"/>
+
+<!---
+    <node name="image_view" pkg="image_view" type="image_view" respawn="false" output="screen">
+		<remap from="image" to="/stereo/left/image_rect"/>
+		<param name="autosize" value="true" />
+	</node>
+
+    <node name="image_view2" pkg="image_view" type="image_view" respawn="false" output="screen">
+		<remap from="image" to="/stereo/right/image_mono"/>
+		<param name="autosize" value="true" />
+	</node>
+//-->
+
+</launch>
