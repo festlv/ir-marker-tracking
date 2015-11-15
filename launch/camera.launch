@@ -1,21 +1,21 @@
 <launch>
 
   <node name="left" ns="stereo" pkg="usb_cam" type="usb_cam_node">
+    <param name="video_device" value="/dev/video0" />
+    <param name="image_width" value="640" />
+    <param name="image_height" value="480" />
+    <param name="pixel_format" value="yuyv" />
+    <param name="framerate" value="60" />
+    <param name="camera_info_url" value="file://$(find marker_tracker)/calibration/ps3eye-wide.yml" />
+  </node>
+
+  <node name="right" ns="stereo" pkg="usb_cam" type="usb_cam_node">
     <param name="video_device" value="/dev/video1" />
     <param name="image_width" value="640" />
     <param name="image_height" value="480" />
     <param name="pixel_format" value="yuyv" />
     <param name="framerate" value="60" />
-    <param name="camera_info_url" value="file:///home/reinis/.ros/camera_info/head_camera.yml" />
-  </node>
-
-  <node name="right" ns="stereo" pkg="usb_cam" type="usb_cam_node">
-    <param name="video_device" value="/dev/video2" />
-    <param name="image_width" value="640" />
-    <param name="image_height" value="480" />
-    <param name="pixel_format" value="yuyv" />
-    <param name="framerate" value="60" />
-    <param name="camera_info_url" value="file:////home/reinis/.ros/camera_info/head_camera.yml" />
+    <param name="camera_info_url" value="file://$(find marker_tracker)/calibration/ps3eye-wide.yml" />
   </node>
 
   

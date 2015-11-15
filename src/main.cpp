@@ -1,62 +1,104 @@
-/*
- * Copyright (C) 2008, Morgan Quigley and Willow Garage, Inc.
- *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions are met:
- *   * Redistributions of source code must retain the above copyright notice,
- *     this list of conditions and the following disclaimer.
- *   * Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
- *   * Neither the names of Stanford University or Willow Garage, Inc. nor the names of its
- *     contributors may be used to endorse or promote products derived from
- *     this software without specific prior written permission.
- *
- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
- * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
- * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
- * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE
- * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
- * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
- * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
- * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
- * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
- * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
- * POSSIBILITY OF SUCH DAMAGE.
- */
-#include "ros/ros.h"
+#include <ros/ros.h>
+#include <image_transport/image_transport.h>
+#include <message_filters/subscriber.h>
+#include <message_filters/time_synchronizer.h>
+#include <message_filters/sync_policies/approximate_time.h>
 
+#include <stdlib.h>
 #include <sstream>
 
-#include <image_transport/image_transport.h>
 #include <opencv2/highgui/highgui.hpp>
+#include <opencv2/opencv.hpp>
 #include <cv_bridge/cv_bridge.h>
 
-void imageCallback(const sensor_msgs::ImageConstPtr& msg)
+using namespace std;
+using namespace sensor_msgs;
+using namespace message_filters;
+
+bool findLed(cv::Mat& image, cv::Point2f& point) {
+
+    cv::Scalar min(200);
+    cv::Scalar max(255, 255, 255);
+    cv::Mat masked_image;
+    cv::inRange(image, min, max, masked_image);
+
+    cv::SimpleBlobDetector::Params params;
+    params.minDistBetweenBlobs = 50.0f;
+    params.filterByInertia = false;
+    params.filterByConvexity = false;
+    params.filterByColor = false;
+    params.filterByCircularity = false;
+    params.filterByArea = true;
+    params.minArea = 10.0f;
+    params.maxArea = 100.0f;
+
+    // set up and create the detector using the parameters
+    cv::SimpleBlobDetector blob_detector(params);
+    
+    // detect!
+    vector<cv::KeyPoint> detectedKeypoints;
+    blob_detector.detect(masked_image, detectedKeypoints);
+	
+    if (detectedKeypoints.size() > 0) {
+        //for now, let's assume the first one is correct
+        cv::circle(image, detectedKeypoints[0].pt, 10, cv::Scalar(255));
+
+        point.x = detectedKeypoints[0].pt.x;
+        point.y = detectedKeypoints[0].pt.y;
+        return true;
+    }
+    return false;
+}
+
+void imageCallback(const ImageConstPtr& msg_left, 
+        const ImageConstPtr& msg_right)
 {
+    static cv::Point2f left_point, right_point;
+
 	try
 	{
-		cv::Mat image = cv_bridge::toCvShare(msg, "mono8")->image;
-		cv::imshow("view", image);
+		cv::Mat image_left = cv_bridge::toCvShare(msg_left, "mono8")->image;
+		cv::Mat image_right = cv_bridge::toCvShare(msg_right, "mono8")->image;
+
+        if (findLed(image_left, left_point) && findLed(image_right, right_point)) {
+            ROS_INFO_THROTTLE(1, "Found point in both images\n");
+            imshow("left", image_left);
+            imshow("right", image_right);
+        }
+
 	}
 	catch (cv_bridge::Exception& e)
 	{
-		ROS_ERROR("Could not convert from '%s' to 'bgr8'.", msg->encoding.c_str());
+		ROS_ERROR("Could not convert from '%s' to 'mono8'.", msg_left->encoding.c_str());
 	}
 }
+
+
 
 int main(int argc, char **argv)
 {
 	ros::init(argc, argv, "marker_tracker");
 	ros::NodeHandle nh;
 
-	cv::namedWindow("view");
+	cv::namedWindow("left");
+	cv::namedWindow("right");
+
 	cv::startWindowThread();
 
-	image_transport::ImageTransport it(nh);
-	image_transport::Subscriber sub = it.subscribe("image", 1, imageCallback);
+    message_filters::Subscriber<Image> left_sub(nh, "image_left", 1);
+    message_filters::Subscriber<Image> right_sub(nh, "image_right", 1);
+
+    typedef message_filters::sync_policies::ApproximateTime<Image, Image> MySyncPolicy;
+    // ApproximateTime takes a queue size as its constructor argument, hence MySyncPolicy(10)
+    Synchronizer<MySyncPolicy> sync(MySyncPolicy(10), left_sub, right_sub);
+
+
+    sync.registerCallback(boost::bind(&imageCallback, _1, _2));
+     
+
 	ros::spin();
-	cv::destroyWindow("view");
+	cv::destroyWindow("left");
+	cv::destroyWindow("right");
 
 	return 0;
 }
