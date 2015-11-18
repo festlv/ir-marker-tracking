@@ -181,10 +181,12 @@ catkin_package(
 # catkin_add_nosetests(test)
 #
 
-find_package(catkin REQUIRED COMPONENTS roscpp rospy std_msgs genmsg image_transport image_rotate roslaunch cv_bridge)
+find_package(catkin REQUIRED COMPONENTS roscpp rospy std_msgs genmsg image_transport 
+    image_rotate roslaunch cv_bridge tf)
 
 #add_dependencies(marker_tracker )
 include_directories(include ${catkin_INCLUDE_DIRS})
+include_directories(src/)
 
-add_executable(marker_tracker src/main.cpp)
+add_executable(marker_tracker src/main.cpp src/triangulator.cpp)
 target_link_libraries(marker_tracker ${catkin_LIBRARIES})

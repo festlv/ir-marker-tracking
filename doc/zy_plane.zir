@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<CaR version="11.0">
+<Construction>
+<Window x="0.0" y="0.0" w="4.756828460010888" showgrid="true"/>
+<Grid axesonly="true" color="0" thickness="2"/>
+<Objects>
+<Point name="P1" n="0" x="0.0" y="2.0" shape="circle">Point at 0.0, 2.0</Point>
+<Point name="P2" n="3" x="0.0" y="-2.0" shape="circle">Point at 0.0, -2.0</Point>
+<Line name="l1" n="4" from="P1" to="P2">Line through P1 and P2</Line>
+<PointOn name="C" n="5" showname="true" on="l1" alpha="2.0" x="0.0" y="0.0" shape="circle">Point on l1</PointOn>
+<Point name="P4" n="8" x="5.0" y="0.0" shape="circle">Point at 5.0, 0.0</Point>
+<Ray name="r1" n="9" type="thin" from="C" to="P4">Ray from C pointing to P4</Ray>
+<Point name="P5" n="10" x="2.0" y="2.0" shape="circle">Point at 2.0, 2.0</Point>
+<Plumb name="p1" n="16" hidden="super" point="P5" line="r1" valid="true">Perpendicular line through P5 to r1</Plumb>
+<Intersection name="I1" n="17" hidden="super" first="p1" second="r1">Intersection between p1 and r1</Intersection>
+<Circle name="c1" n="18" hidden="super" through="P5" midpoint="I1" acute="true">Circle around I1 through P5</Circle>
+<Intersection name="I2" n="19" first="p1" second="c1" awayfrom="P5" shape="circle" which="second">Intersection between p1 and c1</Intersection>
+<Ray name="r2" n="22" type="thin" from="C" to="P5">Ray from C pointing to P5</Ray>
+<Ray name="r3" n="25" type="thin" from="C" to="I2">Ray from C pointing to I2</Ray>
+<Point name="P" n="26" showname="true" bold="true" x="3.0" y="1.0" shape="circle">Point at 3.0, 1.0</Point>
+<Segment name="s1" n="29" from="C" to="P">Line segment from C to P</Segment>
+<Plumb name="p2" n="32" type="thin" point="P" line="l1" valid="true">Perpendicular line through P to l1</Plumb>
+<Intersection name="I3" n="33" first="l1" second="p2" shape="circle">Intersection between l1 and p2</Intersection>
+<Angle name="a1" n="36" unit="°" first="P" root="I3" second="C" display="rectangle" acute="true">Angle P - I3 - C</Angle>
+<Angle name="a2" n="39" unit="°" first="P5" root="C" second="I2" acute="true">Angle P5 - C - I2</Angle>
+<Angle name="theta" n="45" showname="true" unit="°" first="P5" root="C" second="P" display="larger" acute="true">Angle P5 - C - P</Angle>
+<Segment name="P_y" n="48" showname="true" from="P" to="I3">Line segment from P to I3</Segment>
+<Intersection name="I4" n="49" first="p2" second="l1" shape="circle">Intersection between p2 and l1</Intersection>
+<Segment name="P_z" n="52" showname="true" from="I4" to="C">Line segment from I4 to C</Segment>
+<Text name="Text1" n="53" x="-0.75" y="-0.25">View from side</Text>
+</Objects>
+</Construction>
+</CaR>

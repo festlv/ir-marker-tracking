@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<CaR version="11.0">
+<Construction>
+<Window x="0.0" y="0.0" w="1.6817928305074337" showgrid="true"/>
+<Grid axesonly="true" color="0" thickness="2"/>
+<Objects>
+<Point name="P4" n="0" x="-1.0" y="0.0" shape="circle">Point at -1.0, 0.0</Point>
+<Point name="P2" n="3" x="1.0" y="0.0" shape="circle">Point at 1.0, 0.0</Point>
+<Segment name="s1" n="4" type="thick" from="P4" to="P2">Line segment from P4 to P2</Segment>
+<Point name="P" n="5" showname="true" x="0.0" y="1.0" shape="circle">Point at 0.0, 1.0</Point>
+<PointOn name="L" n="6" showname="true" on="s1" alpha="0.25" x="-0.5" y="0.0" shape="circle">Point on s1</PointOn>
+<PointOn name="R" n="7" showname="true" on="s1" alpha="0.75" x="0.5" y="0.0" shape="circle">Point on s1</PointOn>
+<Point name="P8" n="9" x="-1.0" y="0.5" shape="dot">Point at -1.0, 0.5</Point>
+<Point name="P9" n="10" x="0.0" y="0.5" shape="dot">Point at 0.0, 0.5</Point>
+<Point name="P10" n="11" x="1.0" y="0.5" shape="dot">Point at 1.0, 0.5</Point>
+<Point name="P11" n="14" type="thin" x="-0.5" y="1.0" shape="dot">Point at -0.5, 1.0</Point>
+<Ray name="r1" n="15" type="thin" from="L" to="P11">Ray from L pointing to P11</Ray>
+<Point name="P12" n="18" type="thin" x="0.5" y="1.0" shape="dot">Point at 0.5, 1.0</Point>
+<Ray name="r2" n="19" type="thin" from="R" to="P12">Ray from R pointing to P12</Ray>
+<Ray name="r3" n="22" type="thin" from="L" to="P8">Ray from L pointing to P8</Ray>
+<Ray name="r4" n="25" type="thin" from="L" to="P9">Ray from L pointing to P9</Ray>
+<Ray name="r5" n="28" type="thin" from="R" to="P9">Ray from R pointing to P9</Ray>
+<Ray name="r6" n="31" type="thin" from="R" to="P10">Ray from R pointing to P10</Ray>
+<Ray name="r7" n="34" from="L" to="P">Ray from L pointing to P</Ray>
+<Ray name="r8" n="37" from="R" to="P">Ray from R pointing to P</Ray>
+<PointOn name="O" n="40" showname="true" on="s1" alpha="0.5" x="0.0" y="0.0" shape="circle">Point on s1</PointOn>
+<Segment name="s2" n="41" from="P" to="O">Line segment from P to O</Segment>
+<Angle name="alpha" n="44" showname="true" unit="°" first="P" root="L" second="O" acute="true">Angle P - L - O</Angle>
+<Angle name="a2" n="47" unit="°" first="P" root="O" second="L" display="rectangle" acute="true">Angle P - O - L</Angle>
+<Angle name="beta" n="50" showname="true" unit="°" first="P" root="R" second="O" acute="true">Angle P - R - O</Angle>
+<Angle name="fov" n="53" showname="true" unit="°" first="P9" root="R" second="P10" display="larger" acute="true">Angle P9 - R - P10</Angle>
+<Segment name="D" n="56" color="2" showname="true" bold="true" from="L" to="R">Line segment from L to R</Segment>
+<Text name="Text1" n="57" x="-0.5" y="-0.25">L, R- camera locations
+D- distance between cameras
+fov- camera horizontal FOV
+alpha, beta- angles to tracking marker
+P- tracking marker
+O- distance from tracking marker to camera&apos;s focal plane</Text>
+<Text name="Text2" n="58" x="-0.6209986994802981" y="-0.7569011504303939">???</Text>
+</Objects>
+</Construction>
+</CaR>

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<CaR version="11.0">
+<Construction>
+<Window x="0.0" y="0.0" w="2.378414230005444" showgrid="true"/>
+<Grid axesonly="true" color="0" thickness="2"/>
+<Objects>
+<Point name="L" n="5" color="1" showname="true" x="0.0" y="0.0" shape="circle">Point at 0.0, 0.0</Point>
+<Point name="R" n="8" color="1" showname="true" x="0.5" y="0.0" shape="circle">Point at 0.5, 0.0</Point>
+<Line name="l1" n="9" from="L" to="R">Line through L and R</Line>
+<Plumb name="p1" n="12" type="thin" point="L" line="l1" valid="true">Perpendicular line through L to l1</Plumb>
+<Plumb name="p2" n="15" type="thin" point="R" line="l1" valid="true">Perpendicular line through R to l1</Plumb>
+<Point name="P4" n="16" x="-0.5" y="0.25" shape="circle">Point at -0.5, 0.25</Point>
+<PointOn name="P6" n="18" on="p1" alpha="0.25" x="0.0" y="0.25" shape="circle">Point on p1</PointOn>
+<Ray name="r1" n="22" from="L" to="P4">Ray from L pointing to P4</Ray>
+<Ray name="r2" n="25" from="R" to="P6">Ray from R pointing to P6</Ray>
+<Plumb name="p3" n="31" hidden="super" point="P4" line="p1" valid="true">Perpendicular line through P4 to p1</Plumb>
+<Intersection name="I1" n="32" hidden="super" first="p3" second="p1">Intersection between p3 and p1</Intersection>
+<Circle name="c1" n="33" hidden="super" through="P4" midpoint="I1" acute="true">Circle around I1 through P4</Circle>
+<Intersection name="I2" n="34" first="p3" second="c1" awayfrom="P4" shape="circle" which="second">Intersection between p3 and c1</Intersection>
+<Plumb name="p4" n="40" hidden="super" point="P6" line="p2" valid="true">Perpendicular line through P6 to p2</Plumb>
+<Intersection name="I3" n="41" hidden="super" first="p4" second="p2">Intersection between p4 and p2</Intersection>
+<Circle name="c2" n="42" hidden="super" through="P6" midpoint="I3" acute="true">Circle around I3 through P6</Circle>
+<Intersection name="I4" n="43" first="p4" second="c2" awayfrom="P6" shape="circle" which="second">Intersection between p4 and c2</Intersection>
+<Ray name="r3" n="46" from="L" to="I2">Ray from L pointing to I2</Ray>
+<Ray name="r4" n="49" from="R" to="I4">Ray from R pointing to I4</Ray>
+<PointOn name="P9" n="63" on="l1" alpha="1.5" x="1.5" y="0.0" shape="circle">Point on l1</PointOn>
+<Point name="P" n="50" showname="true" bold="true" x="0.25" y="1.0" shape="circle" largepoint="true">Point at 0.25, 1.0</Point>
+<Segment name="s1" n="53" from="P" to="L">Line segment from P to L</Segment>
+<Segment name="s2" n="56" from="P" to="R">Line segment from P to R</Segment>
+<Plumb name="p5" n="59" point="P" line="l1" valid="true">Perpendicular line through P to l1</Plumb>
+<Intersection name="I5" n="60" first="p5" second="l1" shape="circle">Intersection between p5 and l1</Intersection>
+<Angle name="a1" n="64" unit="°" first="P" root="I5" second="P9" display="rectangle" acute="true">Angle P - I5 - P9</Angle>
+<Angle name="a2" n="70" unit="°" first="P" root="L" second="I2" acute="true">Angle P - L - I2</Angle>
+<Angle name="a3" n="73" unit="°" first="P" root="R" second="P6" acute="true">Angle P - R - P6</Angle>
+<Expression name="E3" n="76" showvalue="true" x="-1.125" y="-0.625" value="" prompt="Value">Expression &quot;&quot; at -1.125, -0.625</Expression>
+</Objects>
+</Construction>
+</CaR>
