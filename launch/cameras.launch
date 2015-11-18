@@ -1,4 +1,5 @@
 <launch>
+
     <arg name="image_width"  default="640" />
     <arg name="image_height" default="480" />
     <arg name="autoexposure" default="false"/>
@@ -37,5 +38,9 @@
         <param name="gain" value="$(arg gain)"/>
 
     </node>
+    
+    <!-- image processing nodes //-->
+    <node name="image_proc" pkg="image_proc" type="image_proc" ns="stereo/left"/>
+	<node name="image_proc" pkg="image_proc" type="image_proc" ns="stereo/right"/>
 
 </launch>
