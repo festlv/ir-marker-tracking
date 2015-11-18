@@ -188,5 +188,8 @@ find_package(catkin REQUIRED COMPONENTS roscpp rospy std_msgs genmsg image_trans
 include_directories(include ${catkin_INCLUDE_DIRS})
 include_directories(src/)
 
-add_executable(marker_tracker src/main.cpp src/triangulator.cpp)
+add_executable(marker_tracker src/main.cpp src/triangulator.cpp src/marker_finder.cpp)
 target_link_libraries(marker_tracker ${catkin_LIBRARIES})
+
+add_executable(marker_tracker_calibration src/calibration_main.cpp src/marker_finder.cpp)
+target_link_libraries(marker_tracker_calibration ${catkin_LIBRARIES})

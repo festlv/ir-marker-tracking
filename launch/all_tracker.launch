@@ -4,9 +4,7 @@
         doc="Show image_rect message from both cameras on screen"
         default="0" />
 
-    <include file="$(find marker_tracker)/launch/camera.launch"/>
-
-    <include file="$(find marker_tracker)/launch/image_proc.launch"/>
+    <include file="$(find marker_tracker)/launch/cameras.launch"/>
 
     <include file="$(find marker_tracker)/launch/marker_tracker.launch"/>
 

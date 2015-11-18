@@ -1,5 +1,8 @@
 <launch>
 
+    <arg name="left_device"  default="/dev/video0" />
+    <arg name="right_device" default="/dev/video1" />
+
     <arg name="image_width"  default="640" />
     <arg name="image_height" default="480" />
     <arg name="autoexposure" default="false"/>
@@ -11,7 +14,7 @@
     <arg name="camera_info_url" default="file://$(find marker_tracker)/calibration/ps3eye_f28.yml" />
 
     <node name="left" ns="stereo" pkg="usb_cam" type="usb_cam_node">
-        <param name="video_device" value="/dev/video1" />
+        <param name="video_device" value="$(arg left_device)" />
         <param name="image_width" value="$(arg image_width)" />
         <param name="image_height" value="$(arg image_height)" />
         <param name="pixel_format" value="yuyv" />
@@ -25,7 +28,7 @@
     </node>
 
     <node name="right" ns="stereo" pkg="usb_cam" type="usb_cam_node">
-        <param name="video_device" value="/dev/video2" />
+        <param name="video_device" value="$(arg right_device)" />
         <param name="image_width" value="$(arg image_width)" />
         <param name="image_height" value="$(arg image_height)" />
         <param name="pixel_format" value="yuyv" />

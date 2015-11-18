@@ -6,7 +6,6 @@
 #include <geometry_msgs/TransformStamped.h>
 #include <tf/transform_broadcaster.h>
 
-#include <triangulator.h>
 #include <image_transport/image_transport.h>
 #include <message_filters/subscriber.h>
 #include <message_filters/time_synchronizer.h>
@@ -17,9 +16,10 @@
 
 #include <opencv2/opencv.hpp>
 #include <opencv2/highgui/highgui.hpp>
-#include <opencv2/features2d.hpp>
 
-#include <cv_bridge/cv_bridge.h>
+#include "triangulator.h"
+#include "marker_finder.h"
+
 
 using namespace cv;
 using namespace std;
@@ -28,69 +28,21 @@ using namespace message_filters;
 
 static ros::Publisher pose_pub;
 
-Point2f findMarker(const sensor_msgs::ImageConstPtr& msg, const string& image_view);
-
 const camera_params_t camera_params = {
     .resolution_h = 640,
     .resolution_v = 480,
-    .fov_h = 80,
+    .fov_h = 56.95,
     .fov_v = 60,
     .D = 0.5
 };
 
-Point2f findMarker(const sensor_msgs::ImageConstPtr& msg, const string& image_view)
-{
-    Point2f pt;
-	try
-	{
-		cv::Mat image = cv_bridge::toCvShare(msg, "mono8")->image;
-        cv::Mat invert_image;
-        bitwise_not(image, invert_image);
-
-		// Setup SimpleBlobDetector parameters.
-		cv::SimpleBlobDetector::Params params;
-		
-		// Change thresholds
-		params.minThreshold = 0;
-		params.maxThreshold = 150;
-		
-		// Filter by Area.
-		//params.filterByArea = true;
-		params.minArea = 4;
-		params.maxArea = 500;
-		
-		// Set up detector with params
-		cv::SimpleBlobDetector detector(params);
-		
-		std::vector<KeyPoint> keypoints;
-		detector.detect(invert_image, keypoints);
-
-        if (keypoints.size() > 0) {
-            for (int i = 0; i < keypoints.size(); i++) {
-                circle(invert_image, keypoints[i].pt, 10, Scalar(0,0,255), 2);
-            }
-            pt.x = keypoints[0].pt.x;
-            pt.y = keypoints[0].pt.y;
-
-        }
-		imshow(image_view, invert_image);
-	}
-	catch (cv_bridge::Exception& e)
-	{
-		ROS_ERROR("Could not convert from '%s' to 'mono8'.", msg->encoding.c_str());
-	}
-    return pt;
-}
-
-
-        
 void imageCallback(const ImageConstPtr& msg_left, 
         const ImageConstPtr& msg_right)
 {
     static Point2f pt_left, pt_right;
 
-    pt_left = findMarker(msg_left, "view_left");
-    pt_right = findMarker(msg_right, "view_right");
+    pt_left = find_marker(msg_left, "view_left");
+    pt_right = find_marker(msg_right, "view_right");
 
     static Triangulator t(camera_params);
 
