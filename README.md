@@ -1,4 +1,6 @@
 (incomplete) attempt at 3D position estimation using a pair of cameras.
+============================================================================
+
 
 Requires ROS (tested on indigo) and OpenCV 2.4.
 
@@ -9,6 +11,9 @@ Two PS3Eye webcams mounted 0.5m apart. Original lenses removed, F/2.8 lenses wit
 IR band-pass filters (the floppy plastic from floppy disk).
 These cameras are a great starting point for tracking application, supporting 
 60FPS @ 640x480 and up to 187FPS @ 320x240.
+Tracking markers can be either reflective IR spheres (if you have IR illumination), or active markers (an IR-emitting diode).
+
+![Camera setup](https://github.com/festlv/ir-marker-tracking/raw/master/doc/camera-setup.jpg)
 
 
 Usage
@@ -29,7 +34,7 @@ started roslaunch server http://workstation:42336/
 [ INFO] [1448314230.295243326]: PT: ( 0.31, -0.06,  0.84)
 
 ```
-
+![Screenshot of output](https://github.com/festlv/ir-marker-tracking/raw/master/doc/stereo-screenshot.jpg)
 Pose topic containing position is also published at /pose and can be visualized
 with rviz.
 
