@@ -42,8 +42,4 @@
 
     </node>
     
-    <!-- image processing nodes //-->
-    <node name="image_proc" pkg="image_proc" type="image_proc" ns="stereo/left"/>
-	<node name="image_proc" pkg="image_proc" type="image_proc" ns="stereo/right"/>
-
 </launch>

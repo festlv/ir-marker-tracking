@@ -1,6 +1,0 @@
-<launch>
-    <node name="marker_tracker_calibration" pkg="marker_tracker" type="marker_tracker_calibration" output="screen">
-        <remap from="image_left" to="/stereo/left/image_rect"/>
-        <remap from="image_right" to="/stereo/right/image_rect"/>
-    </node>
-</launch>
