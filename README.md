@@ -42,7 +42,7 @@ with rviz.
 Problems
 --------------
 
-At this point, the code isn't even research-quality code (that has been proven
+At this point, the code isn't even research-quality (that has been proven
 to work at least once).
 
 Observed error was ~0.1m for first 1m but at 3m distance the distance reading was 2.3m 
