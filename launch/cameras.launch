@@ -11,7 +11,7 @@
     <arg name="exposure"     default="50" />
     <arg name="brightness"   default="0" />
     <arg name="gain"         default="50" />
-    <arg name="camera_info_url" default="file://$(find marker_tracker)/calibration/ps3eye_f28.yml" />
+    <arg name="camera_info_url" default="file://$(find marker_tracker)/calibration/ps3eye_f28_large.yml" />
 
     <node name="left" ns="stereo" pkg="usb_cam" type="usb_cam_node">
         <param name="video_device" value="$(arg left_device)" />
